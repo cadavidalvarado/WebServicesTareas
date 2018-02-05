@@ -7,14 +7,18 @@ using System.Web.Http;
 using WebServiceTarea.Models;
 
 namespace WebServiceTarea.Controllers
-{
+{ 
+    [Authorize]
+    [RoutePrefix("api/tareas")]
     public class TareasController : ApiController
     {
+        [Route("Consultar")]
         public ConsultarOutBindingModel GetConsultar(ConsultarOutBindingModel argumentos)
         {
             return null;                
         }
 
+        [Route("crear")]
         public CrearOutBindingModel PostCrear(CrearInBindingModel argumentos)
         {
             return null;
