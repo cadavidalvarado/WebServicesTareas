@@ -6,18 +6,38 @@ using System.Web;
 namespace WebServiceTarea.Models
 {
 
-    public class TareasBindingModel
+
+    public enum OrdenFecha
     {
+        Asc,
+        Desc,
+        SinOrden
 
     }
 
+    public class TareasBindingModel
+    {
+        public string EmailUsuario { get; set; }
+        public long IdTareaPorUsuario { get; set; }
+        public bool Estado { get; set; }
+        public System.DateTime FechaVencimiento { get; set; }
+        public string Descripcion { get; set; }
+    }
+
+
+
     public class ConsultarInBindingModel
     {
-        public IEnumerable<TareasBindingModel> tareas { get; set; }
+        public string IdUsuario { get; set; }
+
+        public bool EstadoTarea { get; set; }
+
+        public string OrdenFecha { get; set; }
     }
 
     public class ConsultarOutBindingModel
     {
+        public List<TareasBindingModel> ListaTareas { get; set; }
     }
 
     public class CrearInBindingModel

@@ -44,7 +44,7 @@ namespace PruebasWebServiceTarea
         [TestMethod]
         public void Test_Consultar()
         {
-            string nombreDeUsuairo = "cadavid", contraseña = "!Qaz12";
+            string nombreDeUsuairo = "carll@gmail.com", contraseña = "!!123As";
             string tokenDeAcceso = GenerarToken(nombreDeUsuairo, contraseña);
             using (var cliente = new WebClient())
             {

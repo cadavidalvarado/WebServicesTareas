@@ -12,12 +12,13 @@ namespace WebServiceTarea.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetUserLogins
+    public partial class UsuarioRol
     {
-        public string LoginProvider { get; set; }
-        public string ProviderKey { get; set; }
-        public string UserId { get; set; }
+        public string IdUsuario { get; set; }
+        public string IdRol { get; set; }
+        public string IdentityUser_Id { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Roles Roles { get; set; }
+        public virtual Usuarios Usuarios { get; set; }
     }
 }

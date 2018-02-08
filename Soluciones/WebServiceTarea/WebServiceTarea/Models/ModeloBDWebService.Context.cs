@@ -12,6 +12,8 @@ namespace WebServiceTarea.Models
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.Data.Entity.Core.Objects;
+    using System.Linq;
     
     public partial class BDWebServiceEntities : DbContext
     {
@@ -26,11 +28,84 @@ namespace WebServiceTarea.Models
         }
     
         public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
-        public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
-        public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
-        public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
-        public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Roles> Roles { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<TabTareasPorUsuario> TabTareasPorUsuario { get; set; }
+        public virtual DbSet<TareasPorUsuario> TareasPorUsuario { get; set; }
+        public virtual DbSet<UsuarioAutenticacion> UsuarioAutenticacion { get; set; }
+        public virtual DbSet<UsuarioReclamo> UsuarioReclamo { get; set; }
+        public virtual DbSet<UsuarioRol> UsuarioRol { get; set; }
+        public virtual DbSet<Usuarios> Usuarios { get; set; }
+    
+        public virtual int PraActualizarTarea(Nullable<long> idTareaPorUsuario, string descripcion, Nullable<bool> estado, Nullable<System.DateTime> fechaVencimiento, string idAutor)
+        {
+            var idTareaPorUsuarioParameter = idTareaPorUsuario.HasValue ?
+                new ObjectParameter("IdTareaPorUsuario", idTareaPorUsuario) :
+                new ObjectParameter("IdTareaPorUsuario", typeof(long));
+    
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var estadoParameter = estado.HasValue ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(bool));
+    
+            var fechaVencimientoParameter = fechaVencimiento.HasValue ?
+                new ObjectParameter("FechaVencimiento", fechaVencimiento) :
+                new ObjectParameter("FechaVencimiento", typeof(System.DateTime));
+    
+            var idAutorParameter = idAutor != null ?
+                new ObjectParameter("IdAutor", idAutor) :
+                new ObjectParameter("IdAutor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PraActualizarTarea", idTareaPorUsuarioParameter, descripcionParameter, estadoParameter, fechaVencimientoParameter, idAutorParameter);
+        }
+    
+        public virtual ObjectResult<PraConsultarTareas_Result> PraConsultarTareas(string idAutor, Nullable<bool> estado, string ordenFecha)
+        {
+            var idAutorParameter = idAutor != null ?
+                new ObjectParameter("IdAutor", idAutor) :
+                new ObjectParameter("IdAutor", typeof(string));
+    
+            var estadoParameter = estado.HasValue ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(bool));
+    
+            var ordenFechaParameter = ordenFecha != null ?
+                new ObjectParameter("OrdenFecha", ordenFecha) :
+                new ObjectParameter("OrdenFecha", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<PraConsultarTareas_Result>("PraConsultarTareas", idAutorParameter, estadoParameter, ordenFechaParameter);
+        }
+    
+        public virtual ObjectResult<Nullable<long>> PraCrearTarea(string descripcion, Nullable<bool> estado, Nullable<System.DateTime> fechaVencimiento, string idAutor)
+        {
+            var descripcionParameter = descripcion != null ?
+                new ObjectParameter("Descripcion", descripcion) :
+                new ObjectParameter("Descripcion", typeof(string));
+    
+            var estadoParameter = estado.HasValue ?
+                new ObjectParameter("Estado", estado) :
+                new ObjectParameter("Estado", typeof(bool));
+    
+            var fechaVencimientoParameter = fechaVencimiento.HasValue ?
+                new ObjectParameter("FechaVencimiento", fechaVencimiento) :
+                new ObjectParameter("FechaVencimiento", typeof(System.DateTime));
+    
+            var idAutorParameter = idAutor != null ?
+                new ObjectParameter("IdAutor", idAutor) :
+                new ObjectParameter("IdAutor", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<Nullable<long>>("PraCrearTarea", descripcionParameter, estadoParameter, fechaVencimientoParameter, idAutorParameter);
+        }
+    
+        public virtual int PraEliminarEventoProceso(Nullable<long> idTareaPorUsuario)
+        {
+            var idTareaPorUsuarioParameter = idTareaPorUsuario.HasValue ?
+                new ObjectParameter("IdTareaPorUsuario", idTareaPorUsuario) :
+                new ObjectParameter("IdTareaPorUsuario", typeof(long));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction("PraEliminarEventoProceso", idTareaPorUsuarioParameter);
+        }
     }
 }

@@ -20,6 +20,28 @@ namespace WebServiceTarea.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        protected override void OnModelCreating(System.Data.Entity.DbModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.HasDefaultSchema("dbo");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.Id).HasColumnName("IdUsuario");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.UserName).HasColumnName("NombreUsuario");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.Email).HasColumnName("Email");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.EmailConfirmed).HasColumnName("ConfirmacionEmail");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.PasswordHash).HasColumnName("Contrasena");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.SecurityStamp).HasColumnName("Seguridad");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.PhoneNumber).HasColumnName("Telefono");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.PhoneNumberConfirmed).HasColumnName("ConfirmacionTelefono");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.TwoFactorEnabled).HasColumnName("FactoresActivacion");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.LockoutEndDateUtc).HasColumnName("FechaBloqueo");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.LockoutEnabled).HasColumnName("Bloqueo");
+            modelBuilder.Entity<ApplicationUser>().ToTable("TabUsuario").Property(p => p.AccessFailedCount).HasColumnName("IngresosFallidos");
+
+            modelBuilder.Entity<IdentityUser>().ToTable("TabUsuario").Property(p => p.Id).HasColumnName("IdUsuario");
+            modelBuilder.Entity<IdentityUser>().ToTable("TabUsuario").Property(p => p.UserName).HasColumnName("NombreUsuario");
+            modelBuilder.Entity<IdentityUser>().ToTable("TabUsuario").Property(p => p.Email).HasColumnName("Email");
+        }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

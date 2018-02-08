@@ -12,14 +12,13 @@ namespace WebServiceTarea.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class TabTareasPorUsuario
+    public partial class UsuarioAutenticacion
     {
-        public long IdTareaPorUsuario { get; set; }
-        public string Descripcion { get; set; }
-        public bool Estado { get; set; }
-        public System.DateTime FechaVencimiento { get; set; }
-        public string IdAutor { get; set; }
+        public string IdLogin { get; set; }
+        public string IdLlaveProveedor { get; set; }
+        public string IdUsuario { get; set; }
+        public string IdentityUser_Id { get; set; }
     
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Usuarios Usuarios { get; set; }
     }
 }

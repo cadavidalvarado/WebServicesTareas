@@ -10,15 +10,13 @@
 namespace WebServiceTarea.Models
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class AspNetUserClaims
+    public partial class PraConsultarTareas_Result
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
-        public string ClaimType { get; set; }
-        public string ClaimValue { get; set; }
-    
-        public virtual AspNetUsers AspNetUsers { get; set; }
+        public string EmailUsuario { get; set; }
+        public long IdTareaPorUsuario { get; set; }
+        public bool Estado { get; set; }
+        public System.DateTime FechaVencimiento { get; set; }
+        public string Descripcion { get; set; }
     }
 }

@@ -12,18 +12,18 @@ namespace WebServiceTarea.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class AspNetRoles
+    public partial class Roles
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public AspNetRoles()
+        public Roles()
         {
-            this.AspNetUsers = new HashSet<AspNetUsers>();
+            this.UsuarioRol = new HashSet<UsuarioRol>();
         }
     
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string IdRol { get; set; }
+        public string NombreRol { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<AspNetUsers> AspNetUsers { get; set; }
+        public virtual ICollection<UsuarioRol> UsuarioRol { get; set; }
     }
 }

@@ -15,56 +15,12 @@
           <Property Name="Model" Type="varbinary(max)" Nullable="false" />
           <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
         </EntityType>
-        <EntityType Name="AspNetRoles">
+        <EntityType Name="Roles">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdRol" />
           </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Name" Type="nvarchar" MaxLength="256" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ClaimType" Type="nvarchar(max)" />
-          <Property Name="ClaimValue" Type="nvarchar(max)" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ProviderKey" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUserRoles">
-          <Key>
-            <PropertyRef Name="UserId" />
-            <PropertyRef Name="RoleId" />
-          </Key>
-          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="RoleId" Type="nvarchar" MaxLength="128" Nullable="false" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="Email" Type="nvarchar" MaxLength="256" />
-          <Property Name="EmailConfirmed" Type="bit" Nullable="false" />
-          <Property Name="PasswordHash" Type="nvarchar(max)" />
-          <Property Name="SecurityStamp" Type="nvarchar(max)" />
-          <Property Name="PhoneNumber" Type="nvarchar(max)" />
-          <Property Name="PhoneNumberConfirmed" Type="bit" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="bit" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="datetime" />
-          <Property Name="LockoutEnabled" Type="bit" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="int" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="IdRol" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="NombreRol" Type="nvarchar" MaxLength="256" Nullable="false" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -76,7 +32,7 @@
           <Property Name="version" Type="int" />
           <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
-        <EntityType Name="TabTareasPorUsuario">
+        <EntityType Name="TareasPorUsuario">
           <Key>
             <PropertyRef Name="IdTareaPorUsuario" />
           </Key>
@@ -86,102 +42,165 @@
           <Property Name="FechaVencimiento" Type="datetime" Nullable="false" />
           <Property Name="IdAutor" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+        <EntityType Name="UsuarioAutenticacion">
+          <Key>
+            <PropertyRef Name="IdLogin" />
+            <PropertyRef Name="IdLlaveProveedor" />
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdLogin" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdLlaveProveedor" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdUsuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdentityUser_Id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="UsuarioReclamo">
+          <Key>
+            <PropertyRef Name="IdUsuarioReclamo" />
+          </Key>
+          <Property Name="IdUsuarioReclamo" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdUsuario" Type="nvarchar(max)" />
+          <Property Name="TipoReclamo" Type="nvarchar(max)" />
+          <Property Name="Reclamo" Type="nvarchar(max)" />
+          <Property Name="IdentityUser_Id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="UsuarioRol">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdUsuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdRol" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="IdentityUser_Id" Type="nvarchar" MaxLength="128" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Correo" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmailConfirmacion" Type="bit" Nullable="false" />
+          <Property Name="Contrasena" Type="nvarchar(max)" />
+          <Property Name="Seguridad" Type="nvarchar(max)" />
+          <Property Name="Telefono" Type="nvarchar(max)" />
+          <Property Name="TelefonoConfirmacion" Type="bit" Nullable="false" />
+          <Property Name="FactoresActivacion" Type="bit" Nullable="false" />
+          <Property Name="FechaBloqueo" Type="datetime" />
+          <Property Name="Bloqueo" Type="bit" Nullable="false" />
+          <Property Name="IngresosFallidos" Type="int" Nullable="false" />
+          <Property Name="EmailUsuario" Type="nvarchar" MaxLength="256" Nullable="false" />
+          <Property Name="Discriminator" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="UsuarioAutenticacion" Type="Self.UsuarioAutenticacion" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
             </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
+            <Dependent Role="UsuarioAutenticacion">
+              <PropertyRef Name="IdentityUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+        <Association Name="FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="UsuarioReclamo" Type="Self.UsuarioReclamo" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
             </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
+            <Dependent Role="UsuarioReclamo">
+              <PropertyRef Name="IdentityUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="1">
+        <Association Name="FK_dbo_UsuarioRol_dbo_Roles_IdRol">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+          <End Role="UsuarioRol" Type="Self.UsuarioRol" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetRoles">
-              <PropertyRef Name="Id" />
+            <Principal Role="Roles">
+              <PropertyRef Name="IdRol" />
             </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="RoleId" />
+            <Dependent Role="UsuarioRol">
+              <PropertyRef Name="IdRol" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserRoles" Type="Self.AspNetUserRoles" Multiplicity="*" />
+        <Association Name="FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="UsuarioRol" Type="Self.UsuarioRol" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
             </Principal>
-            <Dependent Role="AspNetUserRoles">
-              <PropertyRef Name="UserId" />
+            <Dependent Role="UsuarioRol">
+              <PropertyRef Name="IdentityUser_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TabTareasPorUsuario_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="TabTareasPorUsuario" Type="Self.TabTareasPorUsuario" Multiplicity="*" />
+        <Association Name="FK_TareasPorUsuario_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="TareasPorUsuario" Type="Self.TareasPorUsuario" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
             </Principal>
-            <Dependent Role="TabTareasPorUsuario">
+            <Dependent Role="TareasPorUsuario">
               <PropertyRef Name="IdAutor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="PraActualizarTarea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTareaPorUsuario" Type="bigint" Mode="In" />
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Estado" Type="bit" Mode="In" />
+          <Parameter Name="FechaVencimiento" Type="datetime" Mode="In" />
+          <Parameter Name="IdAutor" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="PraConsultarTareas" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdAutor" Type="nvarchar" Mode="In" />
+          <Parameter Name="Estado" Type="bit" Mode="In" />
+          <Parameter Name="OrdenFecha" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="PraCrearTarea" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Descripcion" Type="varchar" Mode="In" />
+          <Parameter Name="Estado" Type="bit" Mode="In" />
+          <Parameter Name="FechaVencimiento" Type="datetime" Mode="In" />
+          <Parameter Name="IdAutor" Type="nvarchar" Mode="In" />
+        </Function>
+        <Function Name="PraEliminarEventoProceso" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="IdTareaPorUsuario" Type="bigint" Mode="In" />
+        </Function>
         <EntityContainer Name="BDWebServiceModelStoreContainer">
           <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="TabTareasPorUsuario" EntityType="Self.TabTareasPorUsuario" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          <EntitySet Name="TareasPorUsuario" EntityType="Self.TareasPorUsuario" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsuarioAutenticacion" EntityType="Self.UsuarioAutenticacion" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsuarioReclamo" EntityType="Self.UsuarioReclamo" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UsuarioRol" EntityType="Self.UsuarioRol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id" Association="Self.FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="UsuarioAutenticacion" EntitySet="UsuarioAutenticacion" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          <AssociationSet Name="FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id" Association="Self.FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="UsuarioReclamo" EntitySet="UsuarioReclamo" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetRoles_RoleId">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          <AssociationSet Name="FK_dbo_UsuarioRol_dbo_Roles_IdRol" Association="Self.FK_dbo_UsuarioRol_dbo_Roles_IdRol">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UsuarioRol" EntitySet="UsuarioRol" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          <AssociationSet Name="FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id" Association="Self.FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="UsuarioRol" EntitySet="UsuarioRol" />
           </AssociationSet>
-          <AssociationSet Name="FK_TabTareasPorUsuario_AspNetUsers" Association="Self.FK_TabTareasPorUsuario_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="TabTareasPorUsuario" EntitySet="TabTareasPorUsuario" />
+          <AssociationSet Name="FK_TareasPorUsuario_Usuarios" Association="Self.FK_TareasPorUsuario_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TareasPorUsuario" EntitySet="TareasPorUsuario" />
           </AssociationSet>
         </EntityContainer>
       </Schema>
@@ -199,55 +218,13 @@
           <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
           <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
         </EntityType>
-        <EntityType Name="AspNetRoles">
+        <EntityType Name="Roles">
           <Key>
-            <PropertyRef Name="Id" />
+            <PropertyRef Name="IdRol" />
           </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="TabTareasPorUsuario" Relationship="Self.FK_TabTareasPorUsuario_AspNetUsers" FromRole="AspNetUsers" ToRole="TabTareasPorUsuario" />
-          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+          <Property Name="IdRol" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="NombreRol" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="UsuarioRol" Relationship="Self.FK_dbo_UsuarioRol_dbo_Roles_IdRol" FromRole="Roles" ToRole="UsuarioRol" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -259,7 +236,7 @@
           <Property Name="version" Type="Int32" />
           <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
-        <EntityType Name="TabTareasPorUsuario">
+        <EntityType Name="TareasPorUsuario">
           <Key>
             <PropertyRef Name="IdTareaPorUsuario" />
           </Key>
@@ -268,77 +245,184 @@
           <Property Name="Estado" Type="Boolean" Nullable="false" />
           <Property Name="FechaVencimiento" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="IdAutor" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_TabTareasPorUsuario_AspNetUsers" FromRole="TabTareasPorUsuario" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK_TareasPorUsuario_Usuarios" FromRole="TareasPorUsuario" ToRole="Usuarios" />
         </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+        <EntityType Name="UsuarioAutenticacion">
+          <Key>
+            <PropertyRef Name="IdLogin" />
+            <PropertyRef Name="IdLlaveProveedor" />
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdLogin" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdLlaveProveedor" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdUsuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdentityUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id" FromRole="UsuarioAutenticacion" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="UsuarioReclamo">
+          <Key>
+            <PropertyRef Name="IdUsuarioReclamo" />
+          </Key>
+          <Property Name="IdUsuarioReclamo" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdUsuario" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TipoReclamo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Reclamo" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IdentityUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id" FromRole="UsuarioReclamo" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="UsuarioRol">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+            <PropertyRef Name="IdRol" />
+          </Key>
+          <Property Name="IdUsuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdRol" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="IdentityUser_Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Roles" Relationship="Self.FK_dbo_UsuarioRol_dbo_Roles_IdRol" FromRole="UsuarioRol" ToRole="Roles" />
+          <NavigationProperty Name="Usuarios" Relationship="Self.FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id" FromRole="UsuarioRol" ToRole="Usuarios" />
+        </EntityType>
+        <EntityType Name="Usuarios">
+          <Key>
+            <PropertyRef Name="IdUsuario" />
+          </Key>
+          <Property Name="IdUsuario" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Correo" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmacion" Type="Boolean" Nullable="false" />
+          <Property Name="Contrasena" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Seguridad" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TelefonoConfirmacion" Type="Boolean" Nullable="false" />
+          <Property Name="FactoresActivacion" Type="Boolean" Nullable="false" />
+          <Property Name="FechaBloqueo" Type="DateTime" Precision="3" />
+          <Property Name="Bloqueo" Type="Boolean" Nullable="false" />
+          <Property Name="IngresosFallidos" Type="Int32" Nullable="false" />
+          <Property Name="EmailUsuario" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Discriminator" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="TareasPorUsuario" Relationship="Self.FK_TareasPorUsuario_Usuarios" FromRole="Usuarios" ToRole="TareasPorUsuario" />
+          <NavigationProperty Name="UsuarioAutenticacion" Relationship="Self.FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id" FromRole="Usuarios" ToRole="UsuarioAutenticacion" />
+          <NavigationProperty Name="UsuarioReclamo" Relationship="Self.FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id" FromRole="Usuarios" ToRole="UsuarioReclamo" />
+          <NavigationProperty Name="UsuarioRol" Relationship="Self.FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id" FromRole="Usuarios" ToRole="UsuarioRol" />
+        </EntityType>
+        <Association Name="FK_dbo_UsuarioRol_dbo_Roles_IdRol">
+          <End Role="Roles" Type="Self.Roles" Multiplicity="1">
             <OnDelete Action="Cascade" />
           </End>
-          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <End Role="UsuarioRol" Type="Self.UsuarioRol" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="Roles">
+              <PropertyRef Name="IdRol" />
             </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
+            <Dependent Role="UsuarioRol">
+              <PropertyRef Name="IdRol" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+        <Association Name="FK_TareasPorUsuario_Usuarios">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="1" />
+          <End Role="TareasPorUsuario" Type="Self.TareasPorUsuario" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
             </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_TabTareasPorUsuario_AspNetUsers">
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
-          <End Role="TabTareasPorUsuario" Type="Self.TabTareasPorUsuario" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TabTareasPorUsuario">
+            <Dependent Role="TareasPorUsuario">
               <PropertyRef Name="IdAutor" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AspNetUserRoles">
-          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
-          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        <Association Name="FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="UsuarioAutenticacion" Type="Self.UsuarioAutenticacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="UsuarioAutenticacion">
+              <PropertyRef Name="IdentityUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="UsuarioReclamo" Type="Self.UsuarioReclamo" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="UsuarioReclamo">
+              <PropertyRef Name="IdentityUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id">
+          <End Role="Usuarios" Type="Self.Usuarios" Multiplicity="0..1" />
+          <End Role="UsuarioRol" Type="Self.UsuarioRol" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuarios">
+              <PropertyRef Name="IdUsuario" />
+            </Principal>
+            <Dependent Role="UsuarioRol">
+              <PropertyRef Name="IdentityUser_Id" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
         <EntityContainer Name="BDWebServiceEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
-          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
-          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
-          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
-          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
+          <EntitySet Name="Roles" EntityType="Self.Roles" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
-          <EntitySet Name="TabTareasPorUsuario" EntityType="Self.TabTareasPorUsuario" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          <EntitySet Name="TareasPorUsuario" EntityType="Self.TareasPorUsuario" />
+          <EntitySet Name="UsuarioAutenticacion" EntityType="Self.UsuarioAutenticacion" />
+          <EntitySet Name="UsuarioReclamo" EntityType="Self.UsuarioReclamo" />
+          <EntitySet Name="UsuarioRol" EntityType="Self.UsuarioRol" />
+          <EntitySet Name="Usuarios" EntityType="Self.Usuarios" />
+          <AssociationSet Name="FK_dbo_UsuarioRol_dbo_Roles_IdRol" Association="Self.FK_dbo_UsuarioRol_dbo_Roles_IdRol">
+            <End Role="Roles" EntitySet="Roles" />
+            <End Role="UsuarioRol" EntitySet="UsuarioRol" />
           </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          <AssociationSet Name="FK_TareasPorUsuario_Usuarios" Association="Self.FK_TareasPorUsuario_Usuarios">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="TareasPorUsuario" EntitySet="TareasPorUsuario" />
           </AssociationSet>
-          <AssociationSet Name="FK_TabTareasPorUsuario_AspNetUsers" Association="Self.FK_TabTareasPorUsuario_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="TabTareasPorUsuario" EntitySet="TabTareasPorUsuario" />
+          <AssociationSet Name="FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id" Association="Self.FK_dbo_UsuarioAutenticacion_dbo_Usuarios_IdentityUser_Id">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="UsuarioAutenticacion" EntitySet="UsuarioAutenticacion" />
           </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          <AssociationSet Name="FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id" Association="Self.FK_dbo_UsuarioReclamo_dbo_Usuarios_IdentityUser_Id">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="UsuarioReclamo" EntitySet="UsuarioReclamo" />
           </AssociationSet>
+          <AssociationSet Name="FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id" Association="Self.FK_dbo_UsuarioRol_dbo_Usuarios_IdentityUser_Id">
+            <End Role="Usuarios" EntitySet="Usuarios" />
+            <End Role="UsuarioRol" EntitySet="UsuarioRol" />
+          </AssociationSet>
+          <FunctionImport Name="PraActualizarTarea">
+            <Parameter Name="IdTareaPorUsuario" Mode="In" Type="Int64" />
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Estado" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaVencimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="IdAutor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PraConsultarTareas" ReturnType="Collection(BDWebServiceModel.PraConsultarTareas_Result)">
+            <Parameter Name="IdAutor" Mode="In" Type="String" />
+            <Parameter Name="Estado" Mode="In" Type="Boolean" />
+            <Parameter Name="OrdenFecha" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PraCrearTarea" ReturnType="Collection(Int64)">
+            <Parameter Name="Descripcion" Mode="In" Type="String" />
+            <Parameter Name="Estado" Mode="In" Type="Boolean" />
+            <Parameter Name="FechaVencimiento" Mode="In" Type="DateTime" />
+            <Parameter Name="IdAutor" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="PraEliminarEventoProceso">
+            <Parameter Name="IdTareaPorUsuario" Mode="In" Type="Int64" />
+          </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="PraConsultarTareas_Result">
+          <Property Type="String" Name="EmailUsuario" Nullable="false" MaxLength="256" />
+          <Property Type="Int64" Name="IdTareaPorUsuario" Nullable="false" />
+          <Property Type="Boolean" Name="Estado" Nullable="false" />
+          <Property Type="DateTime" Name="FechaVencimiento" Nullable="false" Precision="23" />
+          <Property Type="String" Name="Descripcion" Nullable="false" MaxLength="512" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -355,48 +439,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="BDWebServiceModel.AspNetRoles">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="BDWebServiceModel.AspNetUserClaims">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="BDWebServiceModel.AspNetUserLogins">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="BDWebServiceModel.AspNetUsers">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
+          <EntitySetMapping Name="Roles">
+            <EntityTypeMapping TypeName="BDWebServiceModel.Roles">
+              <MappingFragment StoreEntitySet="Roles">
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="NombreRol" ColumnName="NombreRol" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -411,9 +458,9 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TabTareasPorUsuario">
-            <EntityTypeMapping TypeName="BDWebServiceModel.TabTareasPorUsuario">
-              <MappingFragment StoreEntitySet="TabTareasPorUsuario">
+          <EntitySetMapping Name="TareasPorUsuario">
+            <EntityTypeMapping TypeName="BDWebServiceModel.TareasPorUsuario">
+              <MappingFragment StoreEntitySet="TareasPorUsuario">
                 <ScalarProperty Name="IdTareaPorUsuario" ColumnName="IdTareaPorUsuario" />
                 <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
@@ -422,14 +469,69 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="BDWebServiceModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-          </AssociationSetMapping>
+          <EntitySetMapping Name="UsuarioAutenticacion">
+            <EntityTypeMapping TypeName="BDWebServiceModel.UsuarioAutenticacion">
+              <MappingFragment StoreEntitySet="UsuarioAutenticacion">
+                <ScalarProperty Name="IdLogin" ColumnName="IdLogin" />
+                <ScalarProperty Name="IdLlaveProveedor" ColumnName="IdLlaveProveedor" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdentityUser_Id" ColumnName="IdentityUser_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuarioReclamo">
+            <EntityTypeMapping TypeName="BDWebServiceModel.UsuarioReclamo">
+              <MappingFragment StoreEntitySet="UsuarioReclamo">
+                <ScalarProperty Name="IdUsuarioReclamo" ColumnName="IdUsuarioReclamo" />
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="TipoReclamo" ColumnName="TipoReclamo" />
+                <ScalarProperty Name="Reclamo" ColumnName="Reclamo" />
+                <ScalarProperty Name="IdentityUser_Id" ColumnName="IdentityUser_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UsuarioRol">
+            <EntityTypeMapping TypeName="BDWebServiceModel.UsuarioRol">
+              <MappingFragment StoreEntitySet="UsuarioRol">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="IdRol" ColumnName="IdRol" />
+                <ScalarProperty Name="IdentityUser_Id" ColumnName="IdentityUser_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuarios">
+            <EntityTypeMapping TypeName="BDWebServiceModel.Usuarios">
+              <MappingFragment StoreEntitySet="Usuarios">
+                <ScalarProperty Name="IdUsuario" ColumnName="IdUsuario" />
+                <ScalarProperty Name="Correo" ColumnName="Correo" />
+                <ScalarProperty Name="EmailConfirmacion" ColumnName="EmailConfirmacion" />
+                <ScalarProperty Name="Contrasena" ColumnName="Contrasena" />
+                <ScalarProperty Name="Seguridad" ColumnName="Seguridad" />
+                <ScalarProperty Name="Telefono" ColumnName="Telefono" />
+                <ScalarProperty Name="TelefonoConfirmacion" ColumnName="TelefonoConfirmacion" />
+                <ScalarProperty Name="FactoresActivacion" ColumnName="FactoresActivacion" />
+                <ScalarProperty Name="FechaBloqueo" ColumnName="FechaBloqueo" />
+                <ScalarProperty Name="Bloqueo" ColumnName="Bloqueo" />
+                <ScalarProperty Name="IngresosFallidos" ColumnName="IngresosFallidos" />
+                <ScalarProperty Name="EmailUsuario" ColumnName="EmailUsuario" />
+                <ScalarProperty Name="Discriminator" ColumnName="Discriminator" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PraActualizarTarea" FunctionName="BDWebServiceModel.Store.PraActualizarTarea" />
+          <FunctionImportMapping FunctionImportName="PraConsultarTareas" FunctionName="BDWebServiceModel.Store.PraConsultarTareas">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BDWebServiceModel.PraConsultarTareas_Result">
+                <ScalarProperty Name="EmailUsuario" ColumnName="EmailUsuario" />
+                <ScalarProperty Name="IdTareaPorUsuario" ColumnName="IdTareaPorUsuario" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="FechaVencimiento" ColumnName="FechaVencimiento" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="PraCrearTarea" FunctionName="BDWebServiceModel.Store.PraCrearTarea" />
+          <FunctionImportMapping FunctionImportName="PraEliminarEventoProceso" FunctionName="BDWebServiceModel.Store.PraEliminarEventoProceso" />
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
