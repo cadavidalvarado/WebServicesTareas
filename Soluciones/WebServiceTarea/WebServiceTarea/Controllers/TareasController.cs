@@ -19,9 +19,12 @@ namespace WebServiceTarea.Controllers
         //public ConsultarOutBindingModel GetConsultar(ConsultarInBindingModel argumentos)        
         public ConsultarOutBindingModel GetConsultar(ConsultarInBindingModel argumentos)
         {
+            argumentos = argumentos ?? new ConsultarInBindingModel();
+
             using (var BDContexto = new BDWebServiceEntities())
             {
-                var resultadoBd = BDContexto.PraConsultarTareas(argumentos.IdUsuario, argumentos.EstadoTarea, argumentos.OrdenFecha).ToList();
+                var modelo = new ModeloTareas(BDContexto);
+                var resultadoBd = modelo.ConsultarTareasBD(argumentos.IdUsuario, argumentos.EstadoTarea, argumentos.OrdenFecha).ToList();
                 var resultado = new ConsultarOutBindingModel();
 
                 resultado.ListaTareas = resultadoBd.Select(item => new TareasBindingModel()
@@ -41,7 +44,27 @@ namespace WebServiceTarea.Controllers
         [Route("Crear")]
         public CrearOutBindingModel PostCrear(CrearInBindingModel argumentos)
         {
-            return null;
+            using (var BDContexto = new BDWebServiceEntities())
+            {
+                var modelo = new ModeloTareas(BDContexto);
+
+                var entidadBD = new TareasPorUsuario()
+                {
+                    Descripcion = argumentos.Descripcion,
+
+
+                };
+
+                modelo.CrearaTarea(entidadBD);
+
+                return new CrearOutBindingModel()
+                {
+                    Descripcion = entidadBD.Descripcion,
+                };
+            }
+
+
+
         }
 
         public ActualizarOutBindingModel PostActualizar(ActualizarInBindingModel argumentos)

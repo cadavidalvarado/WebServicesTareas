@@ -1,0 +1,115 @@
+﻿@model WebServiceTarea.Models.Usuarios
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Usuarios</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Correo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Correo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailConfirmacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailConfirmacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contrasena)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Seguridad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Seguridad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Telefono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TelefonoConfirmacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelefonoConfirmacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FactoresActivacion)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FactoresActivacion)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FechaBloqueo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FechaBloqueo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Bloqueo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bloqueo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IngresosFallidos)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IngresosFallidos)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailUsuario)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailUsuario)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Discriminator)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Discriminator)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.IdUsuario }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

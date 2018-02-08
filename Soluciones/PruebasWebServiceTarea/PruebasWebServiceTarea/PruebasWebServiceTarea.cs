@@ -36,7 +36,7 @@ namespace PruebasWebServiceTarea
         [TestMethod]
         public void Test_Token()
         {
-            string nombreDeUsuairo = "cadavid", contraseña = "!Qaz12";
+            string nombreDeUsuairo = "carlosalvaradofarfan@gmail.com", contraseña = "Admin1.";
             string tokenDeAcceso = GenerarToken(nombreDeUsuairo, contraseña);
             Assert.AreNotEqual(tokenDeAcceso, null);
         }
@@ -44,7 +44,7 @@ namespace PruebasWebServiceTarea
         [TestMethod]
         public void Test_Consultar()
         {
-            string nombreDeUsuairo = "carll@gmail.com", contraseña = "!!123As";
+            string nombreDeUsuairo = "carlosalvaradofarfan@gmail.com", contraseña = "Admin1.";
             string tokenDeAcceso = GenerarToken(nombreDeUsuairo, contraseña);
             using (var cliente = new WebClient())
             {
@@ -52,7 +52,7 @@ namespace PruebasWebServiceTarea
                 cliente.Headers.Add("Authorization", "Bearer " + tokenDeAcceso);
                 string url = "http://localhost:55910/api/tareas/consultar";
                 var texto = cliente.DownloadString(url);
-                //Assert.IsFalse(texto.Contains("<html>"));
+                Assert.IsFalse(texto.Contains("<html>"));
             }
         }
 

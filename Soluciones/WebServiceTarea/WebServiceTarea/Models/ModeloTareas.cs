@@ -9,11 +9,20 @@ namespace WebServiceTarea.Models
 {
     public class ModeloTareas
     {
-        BDWebServiceEntities bd = new BDWebServiceEntities();
-
-        public List<PraConsultarTareas_Result> ConsultarTareasBD(string IdAutor, string Estado, string OrdenFecha)
+        BDWebServiceEntities bd ;
+        public ModeloTareas(BDWebServiceEntities bd )
         {
-            var tareas = bd.PraConsultarTareas(IdAutor, Convert.ToBoolean(Estado), OrdenFecha).ToList();
+            this.bd = bd;
+        }
+
+        public ModeloTareas():this(new BDWebServiceEntities())
+        {
+
+        }
+
+        public List<PraConsultarTareas_Result> ConsultarTareasBD(string IdAutor, bool Estado, string OrdenFecha)
+        {
+            var tareas = bd.PraConsultarTareas(IdAutor, Estado, OrdenFecha).ToList();
 
             return tareas;
         }

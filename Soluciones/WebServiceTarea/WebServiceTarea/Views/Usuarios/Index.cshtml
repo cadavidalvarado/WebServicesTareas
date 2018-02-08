@@ -1,0 +1,100 @@
+﻿@model IEnumerable<WebServiceTarea.Models.Usuarios>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Correo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailConfirmacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Contrasena)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Seguridad)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TelefonoConfirmacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FactoresActivacion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FechaBloqueo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Bloqueo)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IngresosFallidos)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.EmailUsuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Discriminator)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Correo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailConfirmacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Contrasena)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Seguridad)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Telefono)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelefonoConfirmacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FactoresActivacion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FechaBloqueo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Bloqueo)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IngresosFallidos)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.EmailUsuario)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Discriminator)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.IdUsuario }) |
+            @Html.ActionLink("Details", "Details", new { id=item.IdUsuario }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.IdUsuario })
+        </td>
+    </tr>
+}
+
+</table>

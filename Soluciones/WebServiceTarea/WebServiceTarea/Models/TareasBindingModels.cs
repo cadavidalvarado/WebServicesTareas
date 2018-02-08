@@ -42,12 +42,15 @@ namespace WebServiceTarea.Models
 
     public class CrearInBindingModel
     {
-
+        public string Descripcion { get; set; }
+        public bool Estado { get; set; }
+        public System.DateTime FechaVencimiento { get; set; }
+        public string IdAutor { get; set; }        
     }
 
-    public class CrearOutBindingModel
+    public class CrearOutBindingModel: CrearInBindingModel
     {
-
+        public long IdTareaPorUsuario { get; set; }
     }
 
     public class ActualizarOutBindingModel
