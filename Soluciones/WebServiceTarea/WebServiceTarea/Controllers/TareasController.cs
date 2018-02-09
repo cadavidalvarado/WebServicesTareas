@@ -51,30 +51,65 @@ namespace WebServiceTarea.Controllers
                 var entidadBD = new TareasPorUsuario()
                 {
                     Descripcion = argumentos.Descripcion,
-
-
+                    Estado = argumentos.Estado,
+                    FechaVencimiento = argumentos.FechaVencimiento,
+                    IdAutor = argumentos.IdAutor,
                 };
 
                 modelo.CrearaTarea(entidadBD);
 
                 return new CrearOutBindingModel()
                 {
+                    IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
                     Descripcion = entidadBD.Descripcion,
+                    Estado = entidadBD.Estado,
+                    FechaVencimiento = entidadBD.FechaVencimiento,
+                    IdAutor = entidadBD.IdAutor,
                 };
             }
-
-
-
         }
 
+        [Route("Actualizar")]
         public ActualizarOutBindingModel PostActualizar(ActualizarInBindingModel argumentos)
         {
-            return null;
+            using (var BDContexto = new BDWebServiceEntities())
+            {
+                var modelo = new ModeloTareas(BDContexto);
+
+                var entidadBD = new TareasPorUsuario()
+                {
+                    IdTareaPorUsuario = argumentos.IdTareaPorUsuario,
+                    Descripcion = argumentos.Descripcion,
+                    Estado = argumentos.Estado,
+                    FechaVencimiento = argumentos.FechaVencimiento,
+                    IdAutor = argumentos.IdAutor,
+                };
+
+                modelo.ActualizarTarea(entidadBD);
+
+                return new ActualizarOutBindingModel()
+                {
+                    IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
+                    Descripcion = entidadBD.Descripcion,
+                    Estado = entidadBD.Estado,
+                    FechaVencimiento = entidadBD.FechaVencimiento,
+                    IdAutor = entidadBD.IdAutor,
+                }; 
+            }
         }
 
         public void PostBorrar(BorrarInBindingModel argumentos)
         {
+            using (var BDContexto = new BDWebServiceEntities())
+            {
+                var modelo = new ModeloTareas(BDContexto);
+                var entidadBD = new TareasPorUsuario()
+                {
+                    IdTareaPorUsuario = argumentos.IdTareaPorUsuario,                   
+                };
 
+                modelo.EliminarTarea(entidadBD);
+            }
         }
     }
 }

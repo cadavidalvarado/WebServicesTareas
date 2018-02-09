@@ -53,18 +53,18 @@ namespace WebServiceTarea.Models
         public long IdTareaPorUsuario { get; set; }
     }
 
-    public class ActualizarOutBindingModel
+    public class ActualizarOutBindingModel: CrearOutBindingModel
     {
 
     }
 
-    public class ActualizarInBindingModel
+    public class ActualizarInBindingModel: CrearOutBindingModel
     {
 
     }
 
     public class BorrarInBindingModel
     {
-
+        public long IdTareaPorUsuario { get; set; }
     }
 }

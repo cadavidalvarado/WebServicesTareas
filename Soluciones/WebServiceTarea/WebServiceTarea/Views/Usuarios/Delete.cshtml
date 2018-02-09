@@ -5,117 +5,60 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Delete</h2>
-
-<h3>Are you sure you want to delete this?</h3>
+<h2>Eliminar registro</h2>
+<h3>¿Seguro desea eliminar este registro?</h3>
 <div>
-    <h4>Usuarios</h4>
+    <h4>Usuario</h4>
     <hr />
     <dl class="dl-horizontal">
+        @Html.HiddenFor(model => model.IdUsuario)
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailUsuario)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.EmailUsuario)
+        </dd>
         <dt>
             @Html.DisplayNameFor(model => model.Correo)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Correo)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.EmailConfirmacion)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.EmailConfirmacion)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Contrasena)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Contrasena)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Seguridad)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Seguridad)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Telefono)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Telefono)
         </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.TelefonoConfirmacion)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.TelefonoConfirmacion)
         </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FactoresActivacion)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FactoresActivacion)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.FechaBloqueo)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.FechaBloqueo)
-        </dd>
-
         <dt>
             @Html.DisplayNameFor(model => model.Bloqueo)
         </dt>
-
         <dd>
             @Html.DisplayFor(model => model.Bloqueo)
         </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.IngresosFallidos)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.IngresosFallidos)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.EmailUsuario)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.EmailUsuario)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Discriminator)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Discriminator)
-        </dd>
-
     </dl>
-
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
         <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+
+            @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-info" })
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
         </div>
     }
 </div>
+

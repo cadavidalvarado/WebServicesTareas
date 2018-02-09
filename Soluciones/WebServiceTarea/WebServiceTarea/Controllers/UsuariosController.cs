@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
@@ -36,6 +38,29 @@ namespace WebServiceTarea.Controllers
         }
 
         // GET: Usuarios/Create
+
+        public string GenerardorContraseña()
+        {
+            try
+            {
+                Random r = new Random(DateTime.Now.Millisecond);
+                int L1, L2, l1, l2;
+                L1 = r.Next(65, 90);
+                L2 = r.Next(65, 90);
+                l1 = r.Next(97, 122);
+                l2 = r.Next(97, 122);
+                string PN = Convert.ToChar(L1).ToString() + Convert.ToChar(L2).ToString();
+                string PA = Convert.ToChar(l1).ToString() + Convert.ToChar(l2).ToString();
+                string PassAuto = (PN + PA + r.Next(99999) + "$").ToString();
+                return PassAuto;
+
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
+        }
+
         public ActionResult Create()
         {
             return View();
@@ -46,18 +71,47 @@ namespace WebServiceTarea.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "IdUsuario,Correo,EmailConfirmacion,Contrasena,Seguridad,Telefono,TelefonoConfirmacion,FactoresActivacion,FechaBloqueo,Bloqueo,IngresosFallidos,EmailUsuario,Discriminator")] Usuarios usuarios)
+        public ActionResult Create(Usuarios usuario)
         {
-            if (ModelState.IsValid)
+
+            try
             {
-                db.Usuarios.Add(usuarios);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    Usuarios usuarioT = new Usuarios();
+                    usuarioT.Contrasena = GenerardorContraseña();
+                    usuarioT.Correo = usuario.Correo;
+                    usuarioT.EmailUsuario = usuario.EmailUsuario;
+                    usuarioT.Telefono = usuario.Telefono;
+                    usuarioT.EmailConfirmacion = usuario.EmailConfirmacion;
+                    usuarioT.TelefonoConfirmacion = usuario.TelefonoConfirmacion;
+                    usuarioT.Bloqueo = usuario.Bloqueo;
+                    var manager = System.Web.HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                    var usuarioIdentity = new ApplicationUser() { UserName = usuario.EmailUsuario, Email = usuario.Correo, PhoneNumber = usuario.Telefono, EmailConfirmed = usuario.EmailConfirmacion, PhoneNumberConfirmed = usuario.TelefonoConfirmacion, LockoutEnabled = usuario.Bloqueo };
+                    var resultadoOperacion = manager.Create(usuarioIdentity, usuarioT.Contrasena);
+                    if (resultadoOperacion.Succeeded)
+                    {
+                        db.Usuarios.Add(usuarioT);
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("EmailUsuario", "El nombre de usuario ya existe");
+                        ModelState.AddModelError("Correo", "El Correo de usuario ya existe");
+                        return View(usuario);
+                    }
+                }
+
             }
+            catch (Exception ex)
+            {
 
-            return View(usuarios);
+                throw;
+            }
+            return View(usuario);
+
         }
-
         // GET: Usuarios/Edit/5
         public ActionResult Edit(string id)
         {
@@ -78,11 +132,18 @@ namespace WebServiceTarea.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "IdUsuario,Correo,EmailConfirmacion,Contrasena,Seguridad,Telefono,TelefonoConfirmacion,FactoresActivacion,FechaBloqueo,Bloqueo,IngresosFallidos,EmailUsuario,Discriminator")] Usuarios usuarios)
+        public ActionResult Edit(Usuarios usuarios)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(usuarios).State = EntityState.Modified;
+                Usuarios usuariosT = db.Usuarios.Find(usuarios.IdUsuario);
+                usuariosT.Telefono = usuarios.Telefono;
+                usuariosT.EmailUsuario = usuarios.EmailUsuario;
+                usuariosT.EmailConfirmacion = usuarios.EmailConfirmacion;
+                usuariosT.TelefonoConfirmacion = usuarios.TelefonoConfirmacion;
+                usuariosT.Bloqueo = usuarios.Bloqueo;
+
+                db.Entry(usuariosT).State = EntityState.Modified;
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -110,6 +171,7 @@ namespace WebServiceTarea.Controllers
         public ActionResult DeleteConfirmed(string id)
         {
             Usuarios usuarios = db.Usuarios.Find(id);
+            db.Usuarios.Attach(usuarios);
             db.Usuarios.Remove(usuarios);
             db.SaveChanges();
             return RedirectToAction("Index");
