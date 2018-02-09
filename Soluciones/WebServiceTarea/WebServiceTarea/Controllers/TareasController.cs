@@ -13,10 +13,9 @@ namespace WebServiceTarea.Controllers
     [RoutePrefix("api/tareas")]
     public class TareasController : ApiController
     {
-        //Para crear el modelo: http://www.c-sharpcorner.com/article/using-stored-procedure-in-entity-framework-mvc/
 
-        [Route("Consultar")]
-        //public ConsultarOutBindingModel GetConsultar(ConsultarInBindingModel argumentos)        
+
+        [Route("Consultar")]        
         public ConsultarOutBindingModel GetConsultar(ConsultarInBindingModel argumentos)
         {
             argumentos = argumentos ?? new ConsultarInBindingModel();
@@ -24,7 +23,7 @@ namespace WebServiceTarea.Controllers
             using (var BDContexto = new BDWebServiceEntities())
             {
                 var modelo = new ModeloTareas(BDContexto);
-                var resultadoBd = modelo.ConsultarTareasBD(argumentos.IdUsuario, argumentos.EstadoTarea, argumentos.OrdenFecha).ToList();
+                var resultadoBd = modelo.ConsultarTareasBD(argumentos.IdUsuario, Convert.ToBoolean(argumentos.EstadoTarea), argumentos.OrdenFecha).ToList();
                 var resultado = new ConsultarOutBindingModel();
 
                 resultado.ListaTareas = resultadoBd.Select(item => new TareasBindingModel()
@@ -42,7 +41,7 @@ namespace WebServiceTarea.Controllers
         }
 
         [Route("Crear")]
-        public CrearOutBindingModel PostCrear(CrearInBindingModel argumentos)
+        public CrearOutBindingModel PostCrear([FromBody]CrearInBindingModel argumentos)
         {
             using (var BDContexto = new BDWebServiceEntities())
             {
@@ -52,7 +51,7 @@ namespace WebServiceTarea.Controllers
                 {
                     Descripcion = argumentos.Descripcion,
                     Estado = argumentos.Estado,
-                    FechaVencimiento = argumentos.FechaVencimiento,
+                    FechaVencimiento = Convert.ToDateTime(argumentos.FechaVencimiento),
                     IdAutor = argumentos.IdAutor,
                 };
 
@@ -63,14 +62,14 @@ namespace WebServiceTarea.Controllers
                     IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
                     Descripcion = entidadBD.Descripcion,
                     Estado = entidadBD.Estado,
-                    FechaVencimiento = entidadBD.FechaVencimiento,
+                    FechaVencimiento = Convert.ToString(entidadBD.FechaVencimiento),
                     IdAutor = entidadBD.IdAutor,
                 };
             }
         }
 
         [Route("Actualizar")]
-        public ActualizarOutBindingModel PostActualizar(ActualizarInBindingModel argumentos)
+        public ActualizarOutBindingModel PostActualizar([FromBody]ActualizarInBindingModel argumentos)
         {
             using (var BDContexto = new BDWebServiceEntities())
             {
@@ -81,7 +80,7 @@ namespace WebServiceTarea.Controllers
                     IdTareaPorUsuario = argumentos.IdTareaPorUsuario,
                     Descripcion = argumentos.Descripcion,
                     Estado = argumentos.Estado,
-                    FechaVencimiento = argumentos.FechaVencimiento,
+                    FechaVencimiento = Convert.ToDateTime(argumentos.FechaVencimiento),
                     IdAutor = argumentos.IdAutor,
                 };
 
@@ -92,13 +91,13 @@ namespace WebServiceTarea.Controllers
                     IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
                     Descripcion = entidadBD.Descripcion,
                     Estado = entidadBD.Estado,
-                    FechaVencimiento = entidadBD.FechaVencimiento,
+                    FechaVencimiento = Convert.ToString(entidadBD.FechaVencimiento),
                     IdAutor = entidadBD.IdAutor,
                 }; 
             }
         }
 
-        public void PostBorrar(BorrarInBindingModel argumentos)
+        public void PostBorrar([FromBody]BorrarInBindingModel argumentos)
         {
             using (var BDContexto = new BDWebServiceEntities())
             {

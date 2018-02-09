@@ -30,7 +30,7 @@ namespace WebServiceTarea.Models
     {
         public string IdUsuario { get; set; }
 
-        public bool EstadoTarea { get; set; }
+        public string EstadoTarea { get; set; }
 
         public string OrdenFecha { get; set; }
     }
@@ -44,7 +44,7 @@ namespace WebServiceTarea.Models
     {
         public string Descripcion { get; set; }
         public bool Estado { get; set; }
-        public System.DateTime FechaVencimiento { get; set; }
+        public string FechaVencimiento { get; set; }
         public string IdAutor { get; set; }        
     }
 
