@@ -12,6 +12,7 @@ using WebServiceTarea.Models;
 
 namespace WebServiceTarea.Controllers
 {
+    [Authorize]
     public class UsuariosController : Controller
     {
         private BDWebServiceEntities db = new BDWebServiceEntities();

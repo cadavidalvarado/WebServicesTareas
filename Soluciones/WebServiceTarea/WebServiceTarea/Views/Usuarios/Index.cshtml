@@ -1,13 +1,14 @@
 ﻿@model IEnumerable<WebServiceTarea.Models.Usuarios>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "Usuarios";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Usuario</h2>
 <p>
-    @Html.ActionLink(" Crear usuario", "Create", null, new { @class = "glyphicon glyphicon-pencil" })
+    @*@Html.ActionLink(" Crear usuario", "Register", Account, new { @class = "glyphicon glyphicon-pencil" })*@
+    @Html.ActionLink("Crear usuario", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink", @class = "btn btn-default" })
 </p>
 <table class="table">
     <tr>
@@ -22,10 +23,7 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Correo)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.EmailConfirmacion)
-        </th>
+        </th>        
     </tr>
     @foreach (var item in Model)
     {
@@ -42,10 +40,6 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Correo)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.EmailConfirmacion)
-            </td>
-
             <td>
                 @Html.ActionLink(" Actualizar", "Edit", new { id = item.IdUsuario }, new { @class = "glyphicon glyphicon-pencil" }) |
                 @Html.ActionLink(" Detalle", "Details", new { id = item.IdUsuario }, new { @class = "glyphicon glyphicon-search" }) |

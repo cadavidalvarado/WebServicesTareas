@@ -1,9 +1,9 @@
 ﻿@model WebServiceTarea.Models.Usuarios
 
-<h2>Eliminar registro</h2>
-<h3>¿Seguro desea eliminar este registro?</h3>
+<h2>Eliminar Usuario</h2>
+<h3>¿Está seguro que desea eliminar este usuario?</h3>
 <div>
-    <h4>Usuario</h4>
+    
     <hr />
     <dl class="dl-horizontal">
         @Html.HiddenFor(model => model.IdUsuario)
@@ -46,8 +46,8 @@
 
     </dl>
     <p>
-        @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-info" })
-        @Html.ActionLink("Editar", "Edit", new { id = Model.IdUsuario }, new { @class = "btn btn-success" }) |
+        @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-default" }) 
+        @Html.ActionLink("Editar", "Edit", new { id = Model.IdUsuario }, new { @class = "btn btn-default" }) 
     </p>
 
 </div>

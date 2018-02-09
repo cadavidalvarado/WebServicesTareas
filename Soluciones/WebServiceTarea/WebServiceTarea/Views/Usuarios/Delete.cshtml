@@ -1,7 +1,7 @@
 ﻿@model WebServiceTarea.Models.Usuarios
 
 @{
-    ViewBag.Title = "Delete";
+    ViewBag.Title = "Eliminar";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -56,8 +56,8 @@
 
         <div class="form-actions no-color">
 
-            @Html.ActionLink("Volver", "Index", null, new { @class = "btn btn-info" })
-            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            @Html.ActionLink("Cancelar", "Index", null, new { @class = "btn btn-default" })
+            <input type="submit" value="Eliminar" class="btn btn-default" /> 
         </div>
     }
 </div>
