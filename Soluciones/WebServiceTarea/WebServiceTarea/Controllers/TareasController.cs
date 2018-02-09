@@ -13,7 +13,7 @@ namespace WebServiceTarea.Controllers
     [RoutePrefix("api/tareas")]
     public class TareasController : ApiController
     {
-        [Route("Consultar")]        
+        [Route("Consultar")]
         public ConsultarOutBindingModel GetConsultar(ConsultarInBindingModel argumentos)
         {
             try
@@ -23,17 +23,20 @@ namespace WebServiceTarea.Controllers
                 using (var BDContexto = new BDWebServiceEntities())
                 {
                     var modelo = new ModeloTareas(BDContexto);
-                    var resultadoBd = modelo.ConsultarTareasBD(argumentos.IdUsuario, Convert.ToBoolean(argumentos.EstadoTarea), argumentos.OrdenFecha).ToList();
                     var resultado = new ConsultarOutBindingModel();
 
-                    resultado.ListaTareas = resultadoBd.Select(item => new TareasBindingModel()
+                    if (argumentos.IdUsuario != null && argumentos.EstadoTarea != null && argumentos.OrdenFecha != null)
                     {
-                        Descripcion = item.Descripcion,
-                        EmailUsuario = item.EmailUsuario,
-                        Estado = item.Estado,
-                        FechaVencimiento = item.FechaVencimiento,
-                        IdTareaPorUsuario = item.IdTareaPorUsuario,
-                    }).ToList();
+                        var resultadoBd = modelo.ConsultarTareasBD(argumentos.IdUsuario, Convert.ToBoolean(argumentos.EstadoTarea), argumentos.OrdenFecha).ToList();
+                        resultado.ListaTareas = resultadoBd.Select(item => new TareasBindingModel()
+                        {
+                            Descripcion = item.Descripcion,
+                            EmailUsuario = item.EmailUsuario,
+                            Estado = item.Estado,
+                            FechaVencimiento = item.FechaVencimiento,
+                            IdTareaPorUsuario = item.IdTareaPorUsuario,
+                        }).ToList();
+                    }
 
                     return resultado;
                 }
@@ -43,7 +46,7 @@ namespace WebServiceTarea.Controllers
 
                 throw;
             }
-           
+
 
         }
 
@@ -56,24 +59,37 @@ namespace WebServiceTarea.Controllers
                 {
                     var modelo = new ModeloTareas(BDContexto);
 
-                    var entidadBD = new TareasPorUsuario()
+                    if (argumentos.IdAutor != null && Convert.ToString(argumentos.Estado) != null && argumentos.FechaVencimiento != null)
                     {
-                        Descripcion = argumentos.Descripcion,
-                        Estado = argumentos.Estado,
-                        FechaVencimiento = Convert.ToDateTime(argumentos.FechaVencimiento),
-                        IdAutor = argumentos.IdAutor,
-                    };
+                        var usuarioActual = User.Identity.Name;
+                        var idUsuario = BDContexto.Usuarios.Where(item => item.EmailUsuario == usuarioActual).Select(item => item.IdUsuario).SingleOrDefault();
 
-                    modelo.CrearaTarea(entidadBD);
+                        if (idUsuario != null)
+                        {
+                            var entidadBD = new TareasPorUsuario()
+                            {
+                                Descripcion = argumentos.Descripcion,
+                                Estado = argumentos.Estado,
+                                FechaVencimiento = Convert.ToDateTime(argumentos.FechaVencimiento),
+                                IdAutor = argumentos.IdAutor,
+                            };
 
-                    return new CrearOutBindingModel()
-                    {
-                        IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
-                        Descripcion = entidadBD.Descripcion,
-                        Estado = entidadBD.Estado,
-                        FechaVencimiento = Convert.ToString(entidadBD.FechaVencimiento),
-                        IdAutor = entidadBD.IdAutor,
-                    };
+                            modelo.CrearaTarea(entidadBD);
+
+                            return new CrearOutBindingModel()
+                            {
+                                IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
+                                Descripcion = entidadBD.Descripcion,
+                                Estado = entidadBD.Estado,
+                                FechaVencimiento = Convert.ToString(entidadBD.FechaVencimiento),
+                                IdAutor = entidadBD.IdAutor,
+                            };
+                        }
+
+                        else return null;
+                    }
+
+                    else return null;
                 }
             }
             catch (Exception)
@@ -82,7 +98,7 @@ namespace WebServiceTarea.Controllers
                 throw;
             }
 
-            
+
         }
 
         [Route("Actualizar")]
@@ -94,25 +110,45 @@ namespace WebServiceTarea.Controllers
                 {
                     var modelo = new ModeloTareas(BDContexto);
 
-                    var entidadBD = new TareasPorUsuario()
+                    if (Convert.ToString(argumentos.Estado) != null && argumentos.FechaVencimiento != null && argumentos.Descripcion != null)
                     {
-                        IdTareaPorUsuario = argumentos.IdTareaPorUsuario,
-                        Descripcion = argumentos.Descripcion,
-                        Estado = argumentos.Estado,
-                        FechaVencimiento = Convert.ToDateTime(argumentos.FechaVencimiento),
-                        IdAutor = argumentos.IdAutor,
-                    };
+                        var usuarioActual = User.Identity.Name;
+                        var idUsuario = BDContexto.Usuarios.Where(item => item.EmailUsuario == usuarioActual).Select(item => item.IdUsuario).SingleOrDefault();
 
-                    modelo.ActualizarTarea(entidadBD);
+                        if (idUsuario != null)
+                        {
+                            var usuarioValido = BDContexto.TareasPorUsuario.Where(item => item.IdAutor == idUsuario && item.IdTareaPorUsuario == argumentos.IdTareaPorUsuario).SingleOrDefault();
 
-                    return new ActualizarOutBindingModel()
-                    {
-                        IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
-                        Descripcion = entidadBD.Descripcion,
-                        Estado = entidadBD.Estado,
-                        FechaVencimiento = Convert.ToString(entidadBD.FechaVencimiento),
-                        IdAutor = entidadBD.IdAutor,
-                    };
+                            if (usuarioValido != null)
+                            {
+                                var entidadBD = new TareasPorUsuario()
+                                {
+                                    IdTareaPorUsuario = argumentos.IdTareaPorUsuario,
+                                    Descripcion = argumentos.Descripcion,
+                                    Estado = argumentos.Estado,
+                                    FechaVencimiento = Convert.ToDateTime(argumentos.FechaVencimiento),
+                                    IdAutor = argumentos.IdAutor,
+                                };
+
+                                modelo.ActualizarTarea(entidadBD);
+
+                                return new ActualizarOutBindingModel()
+                                {
+                                    IdTareaPorUsuario = entidadBD.IdTareaPorUsuario,
+                                    Descripcion = entidadBD.Descripcion,
+                                    Estado = entidadBD.Estado,
+                                    FechaVencimiento = Convert.ToString(entidadBD.FechaVencimiento),
+                                    IdAutor = entidadBD.IdAutor,
+                                };
+                            }
+
+                            else return null;
+                        }
+
+                        else return null;
+                    }
+
+                    else return null;
                 }
 
             }
@@ -121,7 +157,7 @@ namespace WebServiceTarea.Controllers
 
                 throw;
             }
-           
+
         }
 
         public void PostBorrar([FromBody]BorrarInBindingModel argumentos)
@@ -144,7 +180,7 @@ namespace WebServiceTarea.Controllers
 
                 throw;
             }
-            
+
         }
     }
 }
